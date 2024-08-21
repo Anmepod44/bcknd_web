@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        form {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .add-feature-container {
+            margin: 20px 0;
+        }
+        .feature-group {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        .feature-group:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Product Details Form</h1>
+    <form id="product-form" action="/submit-product" method="post">
+        <!-- Product Details -->
+        <div class="form-group">
+            <label for="serial_no">Serial Number:</label>
+            <input type="text" id="serial_no" name="serial_no" required>
+        </div>
+        <div class="form-group">
+            <label for="product_name">Product Name:</label>
+            <input type="text" id="product_name" name="product_name" required>
+        </div>
+        <div class="form-group">
+            <label for="product_image">Product Image URL:</label>
+            <input type="text" id="product_image" name="product_image" required>
+        </div>
+        <div class="form-group">
+            <label for="product_description">Product Description:</label>
+            <textarea id="product_description" name="product_description" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="department_name">Department Name:</label>
+            <input type="text" id="department_name" name="department_name" required>
+        </div>
+
+        <!-- Features Details -->
+        <h2>Features</h2>
+        <div id="features-container">
+            <div class="feature-group" id="feature-group-1">
+                <div class="form-group">
+                    <label for="feature_name_1">Feature Name:</label>
+                    <input type="text" id="feature_name_1" name="features[0][name]" required>
+                </div>
+                <div class="form-group">
+                    <label for="feature_description_1">Feature Description:</label>
+                    <textarea id="feature_description_1" name="features[0][description]" rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="feature_image_1">Feature Image URL:</label>
+                    <input type="text" id="feature_image_1" name="features[0][image]" required>
+                </div>
+                <div class="form-group">
+                    <label for="feature_cta_1">Feature CTA:</label>
+                    <input type="text" id="feature_cta_1" name="features[0][cta]" required>
+                </div>
+            </div>
+        </div>
+        <div class="add-feature-container">
+            <button type="button" id="add-feature">Add Another Feature</button>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-group">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <script>
+        document.getElementById('add-feature').addEventListener('click', function() {
+            const featuresContainer = document.getElementById('features-container');
+            const featureIndex = featuresContainer.children.length + 1;
+
+            const featureDiv = document.createElement('div');
+            featureDiv.className = 'feature-group';
+            featureDiv.id = `feature-group-${featureIndex}`;
+
+            featureDiv.innerHTML = `
+                <div class="form-group">
+                    <label for="feature_name_${featureIndex}">Feature Name:</label>
+                    <input type="text" id="feature_name_${featureIndex}" name="features[${featureIndex - 1}][name]" required>
+                </div>
+                <div class="form-group">
+                    <label for="feature_description_${featureIndex}">Feature Description:</label>
+                    <textarea id="feature_description_${featureIndex}" name="features[${featureIndex - 1}][description]" rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="feature_image_${featureIndex}">Feature Image URL:</label>
+                    <input type="text" id="feature_image_${featureIndex}" name="features[${featureIndex - 1}][image]" required>
+                </div>
+                <div class="form-group">
+                    <label for="feature_cta_${featureIndex}">Feature CTA:</label>
+                    <input type="text" id="feature_cta_${featureIndex}" name="features[${featureIndex - 1}][cta]" required>
+                </div>
+            `;
+
+            featuresContainer.appendChild(featureDiv);
+        });
+    </script>
+</body>
+</html>
