@@ -24,8 +24,12 @@ class Package(BaseModel):
     description: str = Field(..., example="The Bronze Package is tailored for small businesses aiming to enhance productivity...")
     products: List[Product]
 
+# To get the index page of the website.
+@app.get("/")
+def index():
+    return {"message":"welcome to fastapi"}
 
-#Post a Package model using fastapi
+# Post a Package model using fastapi
 @app.post("/product")
 def post_product(product:Product):
     return product
@@ -35,3 +39,6 @@ def post_product(product:Product):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5000)
+
+
+# Run using this command : uvicorn model:app --host 0.0.0.0 --port 5000 --reload
