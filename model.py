@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import Response
 from fastapi.requests import Request
 from typing import List
+from orm import Product,Department,Features,Package
 
 app = FastAPI()
 
@@ -28,10 +29,8 @@ class Package(BaseModel):
     description: str = Field(..., example="The Bronze Package is tailored for small businesses aiming to enhance productivity...")
     products: List[Product]
 
-
 #Set up templates directory.
 templates=Jinja2Templates(directory=r"./templates")
-
 
 @app.get("/")
 def get(request:Request):
@@ -40,6 +39,9 @@ def get(request:Request):
 
 @app.post("/product")
 def post_product(product:Product):
-    return product
+    print(product)
+    sample_product=Product(product)
+    
+    return sample_product.pk
 
 # Run using this command : uvicorn model:app --host 0.0.0.0 --port 5000 --reload
