@@ -11,7 +11,7 @@ from redis_om import (
     Migrator
 )
 
-redis = get_redis_connection(host="localhost",port=6379)
+redis = get_redis_connection(host="3.23.95.208",port=6379)
 
 class Department(EmbeddedJsonModel):
     serial_no:str

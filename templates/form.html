@@ -180,52 +180,55 @@
 
         // Submit the form and display the message
         document.getElementById('product-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); // Prevent the default form submission
 
-            const formData = new FormData(event.target);
-            const data = Object.fromEntries(formData.entries());
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData.entries());
 
-            // Convert the flat form data into a nested structure as required
-            const productData = {
-                name: data.product_name,
-                image: data.product_image,
-                description: data.product_description,
-                department_serial:data.serial_no,
-                department_name:data.department_name,
-                features: Array.from(document.querySelectorAll('.feature-group')).map((group, index) => ({
-                    name: data[`features[${index}][name]`],
-                    description: data[`features[${index}][description]`],
-                    image: data[`features[${index}][image]`],
-                    cta: data[`features[${index}][cta]`]
-                }))
-            };
-            // This function is used to print out the product data.
-            console.log(JSON.stringify(productData))
+    // Convert the flat form data into a nested structure as required
+    const productData = {
+        name: data.product_name,
+        image: data.product_image,
+        description: data.product_description,
+        department_serial: data.serial_no,
+        department_name: data.department_name,
+        features: Array.from(document.querySelectorAll('.feature-group')).map((group, index) => ({
+            name: data[`features[${index}][name]`],
+            description: data[`features[${index}][description]`],
+            image: data[`features[${index}][image]`],
+            cta: data[`features[${index}][cta]`]
+        }))
+    };
+    
+    // This function is used to print out the product data.
+    console.log(JSON.stringify(productData))
 
-            fetch('http://localhost:5000/product', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(productData)
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    
-                    console.log(response)
-                    throw new Error('Failed to submit the form');
-                }
-            })
-            .then(data => {
-                displayMessage('Product submitted successfully!', 'success');
-            })
-            .catch(error => {
-                console.log(error)
-                displayMessage(error.message, 'error');
-            });
-        });
+    fetch('http://0.0.0.0:5000/product', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(productData)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            console.log(response)
+            throw new Error('Failed to submit the form');
+        }
+    })
+    .then(data => {
+        displayMessage('Product submitted successfully!', 'success');
+        document.getElementById('product-form').reset(); // Clear all form fields
+        document.getElementById('features-container').innerHTML = ''; // Clear all dynamic feature fields
+    })
+    .catch(error => {
+        console.log(error)
+        displayMessage(error.message, 'error');
+    });
+});
+
 
         function displayMessage(message, type) {
             const messageDiv = document.getElementById('message');
