@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 from pydantic import BaseModel, Field, HttpUrl
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import Response
+from fastapi.requests import Request
 from typing import List
 
 app = FastAPI()
@@ -24,21 +28,18 @@ class Package(BaseModel):
     description: str = Field(..., example="The Bronze Package is tailored for small businesses aiming to enhance productivity...")
     products: List[Product]
 
-# To get the index page of the website.
-@app.get("/")
-def index():
-    return {"message":"welcome to fastapi"}
 
+#Set up templates directory.
+templates=Jinja2Templates(directory=r"./templates")
+
+
+@app.get("/")
+def get(request:Request):
+    return templates.TemplateResponse('form.html',{'request':request})
 # Post a Package model using fastapi
+
 @app.post("/product")
 def post_product(product:Product):
     return product
-
-
-# Code to run the server locally
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=5000)
-
 
 # Run using this command : uvicorn model:app --host 0.0.0.0 --port 5000 --reload
