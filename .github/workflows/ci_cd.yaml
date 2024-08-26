@@ -28,7 +28,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: nyarangamarvin545/zahlenwebsite:latest
+          tags: nyarangamarvin545/form:latest
           labels: ${{ steps.meta.outputs.labels }}
 
   deploy:
@@ -54,6 +54,6 @@ jobs:
             key: ${{ secrets.KEY }}
             script: |
               docker compose down
-              docker rmi -f form
+              docker rmi -f nyarangamarvin545/form:latest
               docker compose pull
               docker compose up -d
