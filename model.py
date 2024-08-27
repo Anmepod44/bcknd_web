@@ -39,8 +39,6 @@ def get(request:Request):
 
 @app.post("/product")
 def post_product(request:Request,product:Product_):
-
-    # Geting the features:
     prod_list=list()
 
     for feature in product.features:
